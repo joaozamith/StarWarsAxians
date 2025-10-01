@@ -2,36 +2,38 @@ package com.example.starwarsaxians.ui.characters.details
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.example.starwarsaxians.ui.destinations.PlanetDetailsScreenDestination
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Destination
 @Composable
 fun CharacterDetailsScreen(
     characterId: String,
-    navigator: DestinationsNavigator
+    onPlanetClick: (String) -> Unit,
+    viewModel: CharacterDetailsViewModel = hiltViewModel()
 ) {
+    val character by viewModel.character.collectAsState()
+
+    LaunchedEffect(characterId) {
+        viewModel.loadCharacter(characterId)
+    }
+
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Character $characterId") }) }
+        topBar = { TopAppBar(title = { Text(character?.name ?: "Loading...") }) }
     ) { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
         ) {
-            Text("Character Details Placeholder")
-
-            Button(
-                onClick = {
-                    navigator.navigate(PlanetDetailsScreenDestination(planetId = "10"))
+            character?.let {
+                Text("Name: ${it.name}")
+                Text("Homeworld: ${it.homeworldName}")
+                Button(onClick = { onPlanetClick(it.homeworldId) }) {
+                    Text("Go to Homeworld")
                 }
-            ) {
-                Text("Go to Planet 10")
-            }
+            } ?: CircularProgressIndicator()
         }
     }
 }

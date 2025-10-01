@@ -3,8 +3,11 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
-    kotlin("kapt")
-    id("com.google.devtools.ksp") version "2.2.0-2.0.2"
+    alias(libs.plugins.kotlin.ksp)
+}
+
+hilt {
+    enableAggregatingTask = false
 }
 
 android {
@@ -56,9 +59,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
 
     // Navigation
-    implementation(libs.compose.destinations.core)
-    implementation(libs.compose.destinations.animations)
-    ksp(libs.compose.destinations.ksp)
+    implementation(libs.androidx.navigation.compose)
 
     // Paging
     implementation(libs.androidx.paging.runtime)
@@ -73,7 +74,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
     // Coil
