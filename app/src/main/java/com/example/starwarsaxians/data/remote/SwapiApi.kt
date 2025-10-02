@@ -1,7 +1,7 @@
 package com.example.starwarsaxians.data.remote
 
 import com.example.starwarsaxians.data.remote.dtos.FilmDto
-import com.example.starwarsaxians.data.remote.dtos.PeopleResponseDto
+import com.example.starwarsaxians.data.remote.dtos.CharacterResponseDto
 import com.example.starwarsaxians.data.remote.dtos.PlanetDto
 import com.example.starwarsaxians.data.remote.dtos.SpeciesDto
 import retrofit2.http.GET
@@ -14,7 +14,7 @@ interface SwapiApi {
     suspend fun getPeople(
         @Query("page") page: Int,
         @Query("search") search: String? = null
-    ): PeopleResponseDto
+    ): CharacterResponseDto
 
     @GET
     suspend fun getPlanetByUrl(@Url url: String): PlanetDto

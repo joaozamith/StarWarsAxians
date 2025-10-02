@@ -1,5 +1,12 @@
 package com.example.starwarsaxians.di
 
+import android.content.Context
+import androidx.room.Room
+import com.example.starwarsaxians.data.local.dao.CharacterDao
+import com.example.starwarsaxians.data.local.dao.FilmDao
+import com.example.starwarsaxians.data.local.dao.PlanetDao
+import com.example.starwarsaxians.data.local.dao.SpeciesDao
+import com.example.starwarsaxians.data.local.db.AppDatabase
 import com.example.starwarsaxians.data.remote.SwapiApi
 import com.example.starwarsaxians.data.repo.StarWarsRepository
 import com.example.starwarsaxians.data.repo.StarWarsRepositoryImpl
@@ -8,6 +15,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -55,6 +63,22 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(api: SwapiApi): StarWarsRepository =
-        StarWarsRepositoryImpl(api)
+    fun provideRepository(api: SwapiApi, filmDao: FilmDao): StarWarsRepository =
+        StarWarsRepositoryImpl(api, filmDao)
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
+        Room.databaseBuilder(context, AppDatabase::class.java, "starwars_db")
+            .fallbackToDestructiveMigration()
+            .build()
+
+    @Provides
+    fun provideCharacterDao(db: AppDatabase): CharacterDao = db.characterDao()
+    @Provides
+    fun provideFilmDao(db: AppDatabase): FilmDao = db.filmDao()
+    @Provides
+    fun providePlanetDao(db: AppDatabase): PlanetDao = db.planetDao()
+    @Provides
+    fun provideSpeciesDao(db: AppDatabase): SpeciesDao = db.speciesDao()
 }

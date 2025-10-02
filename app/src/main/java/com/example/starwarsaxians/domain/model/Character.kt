@@ -1,5 +1,9 @@
 package com.example.starwarsaxians.domain.model
 
+import com.example.starwarsaxians.data.local.entities.CharacterEntity
+import com.example.starwarsaxians.data.helpers.extractId
+import com.example.starwarsaxians.data.remote.dtos.CharacterDto
+
 data class Character(
     val id: String,
     val name: String,
@@ -7,5 +11,43 @@ data class Character(
     val birthYear: String?,
     val homeworldId: String?,
     val filmIds: List<String>,
-    val speciesIds: List<String>
+    val speciesIds: List<String>,
+    val vehicleIds: List<String>,
+    val starshipIds: List<String>
+)
+
+fun CharacterDto.toDomain() = Character(
+    id = url.extractId(),
+    name = name,
+    gender = gender,
+    birthYear = birthYear,
+    homeworldId = homeworld?.extractId(),
+    filmIds = films.map { it.extractId() },
+    speciesIds = species.map { it.extractId() },
+    vehicleIds = vehicles.map { it.extractId() },
+    starshipIds = starships.map { it.extractId() }
+)
+
+fun CharacterEntity.toDomain() = Character(
+    id = id,
+    name = name,
+    gender = gender,
+    birthYear = birthYear,
+    homeworldId = homeworldId,
+    filmIds = filmIds,
+    speciesIds = speciesIds,
+    vehicleIds = vehicleIds,
+    starshipIds = starshipIds
+)
+
+fun Character.toEntity() = CharacterEntity(
+    id = id,
+    name = name,
+    gender = gender,
+    birthYear = birthYear,
+    homeworldId = homeworldId,
+    filmIds = filmIds,
+    speciesIds = speciesIds,
+    vehicleIds = vehicleIds,
+    starshipIds = starshipIds
 )

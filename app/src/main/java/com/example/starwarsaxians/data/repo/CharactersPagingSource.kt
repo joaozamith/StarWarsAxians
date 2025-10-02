@@ -2,9 +2,9 @@ package com.example.starwarsaxians.data.repo
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.starwarsaxians.data.mappers.toDomain
 import com.example.starwarsaxians.data.remote.SwapiApi
 import com.example.starwarsaxians.domain.model.Character
+import com.example.starwarsaxians.domain.model.toDomain
 
 class CharactersPagingSource(
     private val api: SwapiApi,
