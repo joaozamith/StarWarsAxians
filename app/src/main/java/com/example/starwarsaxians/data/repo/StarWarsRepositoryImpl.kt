@@ -13,10 +13,10 @@ class StarWarsRepositoryImpl @Inject constructor(
     private val api: SwapiApi
 ) : StarWarsRepository {
 
-    override fun getCharactersPaged(): Flow<PagingData<Character>> {
+    override fun getCharactersPaged(search: String?): Flow<PagingData<Character>> {
         return Pager(
             config = PagingConfig(pageSize = 10),
-            pagingSourceFactory = { CharactersPagingSource(api) }
+            pagingSourceFactory = { CharactersPagingSource(api, search) }
         ).flow
     }
 

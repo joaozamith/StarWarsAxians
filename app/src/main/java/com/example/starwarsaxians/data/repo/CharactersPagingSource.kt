@@ -7,13 +7,13 @@ import com.example.starwarsaxians.data.remote.SwapiApi
 import com.example.starwarsaxians.domain.model.Character
 
 class CharactersPagingSource(
-    private val api: SwapiApi
+    private val api: SwapiApi,
+    private val searchQuery: String?
 ) : PagingSource<Int, Character>() {
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
         val page = params.key ?: 1
         return try {
-            val response = api.getPeople(page)
+            val response = api.getPeople(page, searchQuery)
             val characters = response.results.map { it.toDomain() }
             LoadResult.Page(
                 data = characters,
@@ -24,11 +24,5 @@ class CharactersPagingSource(
             LoadResult.Error(e)
         }
     }
-
-    override fun getRefreshKey(state: PagingState<Int, Character>): Int? {
-        return state.anchorPosition?.let { anchor ->
-            state.closestPageToPosition(anchor)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(anchor)?.nextKey?.minus(1)
-        }
-    }
+    override fun getRefreshKey(state: PagingState<Int, Character>): Int? = null
 }

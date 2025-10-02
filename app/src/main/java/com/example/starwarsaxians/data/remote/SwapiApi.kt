@@ -12,7 +12,8 @@ interface SwapiApi {
 
     @GET("people/")
     suspend fun getPeople(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("search") search: String? = null
     ): PeopleResponseDto
 
     @GET
