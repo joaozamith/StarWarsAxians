@@ -26,6 +26,27 @@ class StarWarsRepositoryImpl @Inject constructor(
         ).flow
     }
 
+    override fun getFilmsPaged(search: String?): Flow<PagingData<Film>> {
+        return Pager(
+            config = PagingConfig(pageSize = 10),
+            pagingSourceFactory = { FilmsPagingSource(api, search) }
+        ).flow
+    }
+
+    override fun getPlanetsPaged(search: String?): Flow<PagingData<Planet>> {
+        return Pager(
+            config = PagingConfig(pageSize = 10),
+            pagingSourceFactory = { PlanetsPagingSource(api, search) }
+        ).flow
+    }
+
+    override fun getSpeciesPaged(search: String?): Flow<PagingData<Species>> {
+        return Pager(
+            config = PagingConfig(pageSize = 10),
+            pagingSourceFactory = { SpeciesPagingSource(api, search) }
+        ).flow
+    }
+
     override suspend fun getFilm(id: String): Film {
         val cached = filmDao.getFilmById(id)
         if (cached != null) {

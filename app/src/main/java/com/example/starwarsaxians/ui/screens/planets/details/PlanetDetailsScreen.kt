@@ -1,4 +1,4 @@
-package com.example.starwarsaxians.ui.planets.details
+package com.example.starwarsaxians.ui.screens.planets.details
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -12,7 +12,7 @@ fun PlanetDetailsScreen(
     planetId: String,
     viewModel: PlanetDetailsViewModel = hiltViewModel()
 ) {
-    val planet by viewModel.planet.collectAsState()
+/*    val planet by viewModel.planets.collectAsState()
 
     LaunchedEffect(planetId) {
         viewModel.loadPlanet(planetId)
@@ -31,5 +31,5 @@ fun PlanetDetailsScreen(
                 Text("Population: ${it.population}")
             } ?: CircularProgressIndicator()
         }
-    }
+    }*/
 }

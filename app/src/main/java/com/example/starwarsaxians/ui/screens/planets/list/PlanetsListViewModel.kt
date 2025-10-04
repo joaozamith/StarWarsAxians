@@ -1,11 +1,11 @@
-package com.example.starwarsaxians.ui.characters.list
+package com.example.starwarsaxians.ui.screens.planets.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.starwarsaxians.data.repo.StarWarsRepository
-import com.example.starwarsaxians.domain.model.Character
+import com.example.starwarsaxians.domain.model.Planet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -15,19 +15,19 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 @HiltViewModel
-class CharactersListViewModel @Inject constructor(
+class PlanetsListViewModel @Inject constructor(
     private val repository: StarWarsRepository
 ) : ViewModel() {
 
     private val searchQuery = MutableStateFlow<String?>(null)
 
-    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-    val characters: Flow<PagingData<Character>> =
+    val planets: Flow<PagingData<Planet>> =
         searchQuery
             .debounce(300)
             .flatMapLatest { query ->
-                repository.getCharactersPaged(query)
+                repository.getPlanetsPaged(query)
             }
             .cachedIn(viewModelScope)
 

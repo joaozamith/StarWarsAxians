@@ -1,4 +1,4 @@
-package com.example.starwarsaxians.ui.characters.details
+package com.example.starwarsaxians.ui.screens.characters.details
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

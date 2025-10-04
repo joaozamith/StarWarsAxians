@@ -18,3 +18,10 @@ data class PlanetDto(
     val edited: String,
     val url: String
 )
+
+data class PlanetsResponseDto(
+    val count: Int,
+    val next: String?,
+    val previous: String?,
+    val results: List<PlanetDto>
+)

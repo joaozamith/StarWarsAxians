@@ -1,4 +1,4 @@
-package com.example.starwarsaxians.ui.characters.details
+package com.example.starwarsaxians.ui.screens.characters.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

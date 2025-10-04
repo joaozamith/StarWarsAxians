@@ -19,3 +19,10 @@ data class SpeciesDto(
     val edited: String,
     val url: String
 )
+
+data class SpeciesResponseDto(
+    val count: Int,
+    val next: String?,
+    val previous: String?,
+    val results: List<SpeciesDto>
+)

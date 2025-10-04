@@ -18,3 +18,10 @@ data class FilmDto(
     val edited: String,
     val url: String
 )
+
+data class FilmsResponseDto(
+    val count: Int,
+    val next: String?,
+    val previous: String?,
+    val results: List<FilmDto>
+)
