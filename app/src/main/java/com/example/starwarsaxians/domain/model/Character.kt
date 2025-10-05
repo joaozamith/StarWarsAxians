@@ -7,6 +7,8 @@ import com.example.starwarsaxians.data.remote.dtos.CharacterDto
 data class Character(
     val id: String,
     val name: String,
+    val mass: String?,
+    val height: String?,
     val gender: String?,
     val birthYear: String?,
     val homeworldId: String?,
@@ -19,6 +21,8 @@ data class Character(
 fun CharacterDto.toDomain() = Character(
     id = url.extractId(),
     name = name,
+    mass = mass,
+    height = height,
     gender = gender,
     birthYear = birthYear,
     homeworldId = homeworld?.extractId(),
@@ -31,6 +35,8 @@ fun CharacterDto.toDomain() = Character(
 fun CharacterEntity.toDomain() = Character(
     id = id,
     name = name,
+    mass = mass,
+    height = height,
     gender = gender,
     birthYear = birthYear,
     homeworldId = homeworldId,
@@ -43,6 +49,8 @@ fun CharacterEntity.toDomain() = Character(
 fun Character.toEntity() = CharacterEntity(
     id = id,
     name = name,
+    mass = mass,
+    height = height,
     gender = gender,
     birthYear = birthYear,
     homeworldId = homeworldId,

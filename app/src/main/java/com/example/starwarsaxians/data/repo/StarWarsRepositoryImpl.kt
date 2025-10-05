@@ -3,7 +3,10 @@ package com.example.starwarsaxians.data.repo
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.starwarsaxians.data.local.dao.CharacterDao
 import com.example.starwarsaxians.data.local.dao.FilmDao
+import com.example.starwarsaxians.data.local.dao.PlanetDao
+import com.example.starwarsaxians.data.local.dao.SpeciesDao
 import com.example.starwarsaxians.data.local.entities.FilmEntity
 import com.example.starwarsaxians.data.remote.SwapiApi
 import com.example.starwarsaxians.domain.model.Character
@@ -11,12 +14,16 @@ import com.example.starwarsaxians.domain.model.Film
 import com.example.starwarsaxians.domain.model.Planet
 import com.example.starwarsaxians.domain.model.Species
 import com.example.starwarsaxians.domain.model.toDomain
+import com.example.starwarsaxians.domain.model.toEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class StarWarsRepositoryImpl @Inject constructor(
     private val api: SwapiApi,
-    private val filmDao: FilmDao
+    private val characterDao: CharacterDao,
+    private val filmDao: FilmDao,
+    private val speciesDao: SpeciesDao,
+    private val planetDao: PlanetDao
 ) : StarWarsRepository {
 
     override fun getCharactersPaged(search: String?): Flow<PagingData<Character>> {
@@ -47,7 +54,7 @@ class StarWarsRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override suspend fun getFilm(id: String): Film {
+    override suspend fun getFilmById(id: String): Film {
         val cached = filmDao.getFilmById(id)
         if (cached != null) {
             return Film(
@@ -65,6 +72,20 @@ class StarWarsRepositoryImpl @Inject constructor(
         )
 
         return film
+    }
+
+    override suspend fun getCharacterById(id: String): Character {
+        val cached = characterDao.getCharacterById(id)
+        if (cached != null) {
+            return cached.toDomain()
+        }
+
+        val dto = api.getCharacterById(id)
+        val character = dto.toDomain()
+
+        characterDao.insertCharacters(listOf(character.toEntity()))
+
+        return character
     }
 
     override suspend fun getPlanet(id: String): Planet {

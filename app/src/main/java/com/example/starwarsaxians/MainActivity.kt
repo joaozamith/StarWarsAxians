@@ -1,5 +1,6 @@
 package com.example.starwarsaxians
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SideEffect { window.statusBarColor = android.graphics.Color.BLACK }
+            SideEffect { window.statusBarColor = Color.BLACK }
 
             var showSplash by remember { mutableStateOf(true) }
 
@@ -81,7 +82,8 @@ fun StarWarsAppContent() {
                 characterId = characterId,
                 onPlanetClick = { planetId ->
                     navController.navigate("planet_details/$planetId")
-                }
+                },
+                onBack = { navController.popBackStack() }
             )
         }
 

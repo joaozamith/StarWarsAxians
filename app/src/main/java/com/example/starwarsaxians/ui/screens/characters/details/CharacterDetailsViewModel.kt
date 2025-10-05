@@ -1,40 +1,32 @@
 package com.example.starwarsaxians.ui.screens.characters.details
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.starwarsaxians.data.repo.StarWarsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class CharacterDetails(
-    val id: String,
-    val name: String,
-    val homeworldId: String,
-    val homeworldName: String
-)
-
 @HiltViewModel
-class CharacterDetailsViewModel @Inject constructor() : ViewModel() {
+class CharacterDetailsViewModel @Inject constructor(
+    private val repository: StarWarsRepository
+) : ViewModel() {
 
-    private val _character = MutableStateFlow<CharacterDetails?>(null)
-    val character: StateFlow<CharacterDetails?> = _character
+    private val _character = MutableStateFlow<com.example.starwarsaxians.domain.model.Character?>(null)
+    val character: StateFlow<com.example.starwarsaxians.domain.model.Character?> = _character
 
-    fun loadCharacter(id: String) {
+    suspend fun loadCharacter(id: String) {
         viewModelScope.launch {
-            // Dummy data for now
-            _character.value = CharacterDetails(
-                id = id,
-                name = when (id) {
-                    "1" -> "Luke Skywalker"
-                    "2" -> "Leia Organa"
-                    "3" -> "Han Solo"
-                    else -> "Unknown"
-                },
-                homeworldId = "100",
-                homeworldName = "Tatooine"
-            )
+            runCatching {
+                repository.getCharacterById(id) // You can implement this using the cached list or API
+            }.onSuccess { character ->
+                _character.value = character
+            }.onFailure { error ->
+                Log.e("CharacterDetailsViewModel", "Error: ${error.message}")
+            }
         }
     }
 }

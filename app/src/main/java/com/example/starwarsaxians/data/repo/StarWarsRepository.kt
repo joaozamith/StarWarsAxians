@@ -9,7 +9,10 @@ interface StarWarsRepository {
     fun getFilmsPaged(search: String?): Flow<PagingData<Film>>
     fun getPlanetsPaged(search: String?): Flow<PagingData<Planet>>
     fun getSpeciesPaged(search: String?): Flow<PagingData<Species>>
+
+    suspend fun getCharacterById(id: String): Character
+
     suspend fun getPlanet(id: String): Planet
-    suspend fun getFilm(id: String): Film
+    suspend fun getFilmById(id: String): Film
     suspend fun getSpecies(id: String): Species
 }

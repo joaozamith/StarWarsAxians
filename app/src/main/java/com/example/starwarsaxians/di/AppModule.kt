@@ -63,8 +63,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(api: SwapiApi, filmDao: FilmDao): StarWarsRepository =
-        StarWarsRepositoryImpl(api, filmDao)
+    fun provideRepository(
+        api: SwapiApi,
+        filmDao: FilmDao,
+        characterDao: CharacterDao,
+        speciesDao: SpeciesDao,
+        planetDao: PlanetDao
+    ): StarWarsRepository =
+        StarWarsRepositoryImpl(api, characterDao, filmDao, speciesDao, planetDao)
 
     @Provides
     @Singleton

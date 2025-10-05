@@ -7,6 +7,8 @@ import androidx.room.PrimaryKey
 data class CharacterEntity(
     @PrimaryKey val id: String,
     val name: String,
+    val mass: String?,
+    val height: String?,
     val gender: String?,
     val birthYear: String?,
     val homeworldId: String?,
