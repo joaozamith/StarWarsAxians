@@ -14,4 +14,7 @@ interface StarWarsRepository {
 
     suspend fun toggleFavorite(characterId: String)
     fun getFavoriteCharacters(): Flow<List<Character>>
+
+    suspend fun getAllPlanets(): List<Planet>
+    suspend fun getCharactersByPlanet(planetId: String): List<Character>
 }

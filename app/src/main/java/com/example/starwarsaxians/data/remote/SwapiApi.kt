@@ -42,6 +42,11 @@ interface SwapiApi {
     @GET("people/{id}/")
     suspend fun getCharacterById(@Path("id") id: String): CharacterDto
 
+    @GET("people/")
+    suspend fun getCharacters(
+        @Query("page") page: Int = 1
+    ): CharacterResponseDto
+
     @GET
     suspend fun getPlanetByUrl(@Url url: String): PlanetDto
 

@@ -7,7 +7,17 @@ import androidx.room.PrimaryKey
 data class PlanetEntity(
     @PrimaryKey val id: String,
     val name: String,
-    val climate: String?,
     val population: String?,
-    val filmIds: List<String>
+    val filmIds: List<String>,
+    val rotationPeriod: String?,
+    val orbitalPeriod: String?,
+    val diameter: String?,
+    val climate: String?,
+    val gravity: String?,
+    val terrain: String?,
+    val residents: List<String>,
+    val films: List<String>,
+    val created: String,
+    val edited: String,
+    val url: String
 )

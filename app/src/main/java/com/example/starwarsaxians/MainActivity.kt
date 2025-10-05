@@ -23,6 +23,7 @@ import com.example.starwarsaxians.ui.screens.favourites.FavoritesScreen
 import com.example.starwarsaxians.ui.screens.films.list.FilmsListScreen
 import com.example.starwarsaxians.ui.screens.planets.details.PlanetDetailsScreen
 import com.example.starwarsaxians.ui.screens.planets.list.PlanetsListScreen
+import com.example.starwarsaxians.ui.screens.planetsMap.PlanetsMapScreen
 import com.example.starwarsaxians.ui.screens.species.list.SpeciesListScreen
 import com.example.starwarsaxians.ui.screens.splash.SplashScreen
 import com.example.starwarsaxians.ui.theme.AppThemeViewModel
@@ -33,6 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        org.osmdroid.config.Configuration.getInstance().userAgentValue = packageName
         setContent {
             SideEffect { window.statusBarColor = android.graphics.Color.BLACK }
 
@@ -66,6 +68,7 @@ fun StarWarsAppContent() {
                 onNavigateToFilms = { navController.navigate("films_list") },
                 onNavigateToSpecies = { navController.navigate("species_list") },
                 onNavigateToPlanets = { navController.navigate("planets_list") },
+                onPlanetsMap = { navController.navigate("planets_map") },
                 onFavourites = { navController.navigate("favourites_screen") }
             )
         }
@@ -132,6 +135,12 @@ fun StarWarsAppContent() {
         ) { backStackEntry ->
             val planetId = backStackEntry.arguments?.getString("planetId")!!
             PlanetDetailsScreen(planetId = planetId)
+        }
+
+        composable(
+            "planets_map",
+        ) {
+            PlanetsMapScreen()
         }
     }
 }

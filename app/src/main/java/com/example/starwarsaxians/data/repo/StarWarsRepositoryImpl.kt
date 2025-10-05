@@ -3,6 +3,7 @@ package com.example.starwarsaxians.data.repo
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.starwarsaxians.data.helpers.extractId
 import com.example.starwarsaxians.data.local.dao.CharacterDao
 import com.example.starwarsaxians.data.local.dao.FilmDao
 import com.example.starwarsaxians.data.local.dao.PlanetDao
@@ -78,5 +79,34 @@ class StarWarsRepositoryImpl @Inject constructor(
     override fun getFavoriteCharacters(): Flow<List<Character>> {
         return characterDao.getFavoriteCharacters()
             .map { list -> list.map { it.toDomain() } }
+    }
+
+    override suspend fun getAllPlanets(): List<Planet> {
+        val cached = planetDao.getAllPlanets()
+        if (cached.isNotEmpty()) return cached.map { it.toDomain() }
+
+        val response = api.getPlanets(1) // SWAPI paginates, we’ll fetch the first few pages
+        val allPlanets = response.results.map { it.toDomain() }
+
+        planetDao.insertPlanets(allPlanets.map { it.toEntity() })
+
+        return allPlanets
+    }
+
+    override suspend fun getCharactersByPlanet(planetId: String): List<Character> {
+        val characters = mutableListOf<Character>()
+        var nextPage: String?
+        var currentPage = 1
+        do {
+            val response = api.getCharacters(page = currentPage)
+            response.results
+                .filter { it.homeworld?.extractId() == planetId }
+                .mapTo(characters) { it.toDomain() }
+
+            nextPage = response.next
+            currentPage++
+        } while (nextPage != null)
+
+        return characters
     }
 }

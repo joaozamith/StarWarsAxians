@@ -42,6 +42,7 @@ fun DashboardDrawer(
     drawerState: DrawerState,
     isVaderMode: Boolean,
     onFavourites: () -> Unit,
+    onPlanetsMap: () -> Unit,
     toggleMode: () -> Unit
 ) {
     ModalDrawerSheet(
@@ -74,7 +75,7 @@ fun DashboardDrawer(
                 NavigationDrawerItem(
                     label = { Text(text = "Map", color = MaterialTheme.colorScheme.primary,) },
                     selected = false,
-                    onClick = { /* TODO */ }
+                    onClick = { onPlanetsMap() }
                 )
                 Column(
                     modifier = Modifier.padding(top = 30.dp),

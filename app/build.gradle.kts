@@ -100,6 +100,9 @@ dependencies {
     //Datastore
     implementation(libs.androidx.datastore.preferences)
 
+    //OSM
+    implementation(libs.osmdroid.android)
+
     // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

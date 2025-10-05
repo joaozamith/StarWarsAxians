@@ -47,6 +47,7 @@ fun DashboardScreen(
     onNavigateToSpecies: () -> Unit,
     onNavigateToPlanets: () -> Unit,
     onFavourites: () -> Unit,
+    onPlanetsMap: () -> Unit,
     viewModel: AppThemeViewModel = hiltViewModel()
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -63,6 +64,7 @@ fun DashboardScreen(
                         drawerState = drawerState,
                         isVaderMode = isVaderMode,
                         onFavourites = { onFavourites() },
+                        onPlanetsMap = { onPlanetsMap() },
                         toggleMode = { viewModel.toggleMode() }
                     )
                 }

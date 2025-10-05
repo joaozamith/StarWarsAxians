@@ -8,6 +8,9 @@ import com.example.starwarsaxians.data.local.entities.PlanetEntity
 
 @Dao
 interface PlanetDao {
+    @Query("SELECT * FROM planets")
+    suspend fun getAllPlanets(): List<PlanetEntity>
+
     @Query("SELECT * FROM planets WHERE id = :id")
     suspend fun getPlanetById(id: String): PlanetEntity?
 

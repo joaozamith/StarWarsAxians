@@ -41,7 +41,10 @@ mapsCompose = "6.11.0"
 playServicesMaps = "19.2.0"
 
 #Datastore
-datastore = "1.1.1"
+datastore = "1.1.7"
+
+#OSM
+osmdroid = "6.1.20"
 
 [libraries]
 # AndroidX Core
@@ -100,6 +103,9 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 
 # Datastore
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+
+#OSM
+osmdroid-android = { group = "org.osmdroid", name = "osmdroid-android", version.ref = "osmdroid" }
 
 # Tests
 junit = { group = "junit", name = "junit", version.ref = "junit" }
