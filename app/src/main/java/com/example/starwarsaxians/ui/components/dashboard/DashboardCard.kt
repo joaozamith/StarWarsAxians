@@ -22,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.starwarsaxians.R
 import com.example.starwarsaxians.ui.theme.StarWarsFont
-import com.example.starwarsaxians.ui.theme.StarWarsYellow
 
 @Composable
 fun DashboardCard(
@@ -48,7 +47,7 @@ fun DashboardCard(
             text = title.uppercase(),
             style = MaterialTheme.typography.headlineSmall.copy(
                 fontFamily = StarWarsFont,
-                color = StarWarsYellow
+                color = MaterialTheme.colorScheme.primary
             ),
             modifier = Modifier.padding(bottom = 8.dp)
         )
@@ -58,7 +57,7 @@ fun DashboardCard(
                 .width(350.dp)
                 .height(200.dp),
             shape = RoundedCornerShape(16.dp),
-            border = BorderStroke(2.dp, StarWarsYellow),
+            border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
             elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
         ) {
             Image(

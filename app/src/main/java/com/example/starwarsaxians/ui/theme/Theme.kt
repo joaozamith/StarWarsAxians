@@ -14,15 +14,15 @@ import com.example.starwarsaxians.R
 val StarWarsFont = FontFamily(
     Font(R.font.starjedi_special, FontWeight.Normal)
 )
-val StarWarsYellow = Color(0xFFFFE81F)
+val JediYellow = Color(0xFFFFE81F)
+val SithRed = Color(0xFFB71C1C)
 
-// Tipografia personalizada
 val StarWarsTypography = Typography(
     displayLarge = TextStyle(
         fontFamily = StarWarsFont,
         fontWeight = FontWeight.Normal,
         fontSize = 32.sp,
-        color = Color(0xFFFFE81F) // Amarelo oficial
+        color = Color(0xFFFFE81F)
     ),
     bodyLarge = TextStyle(
         fontFamily = StarWarsFont,
@@ -32,42 +32,31 @@ val StarWarsTypography = Typography(
     )
 )
 
-val StarWarsColors = darkColorScheme(
-    primary = Color(0xFFFFE81F),
-    onPrimary = Color.Black,
-    background = Color.Black,
-    surface = Color.Black,
-    onBackground = Color(0xFFFFE81F),
-    onSurface = Color(0xFFFFE81F)
-)
-
-
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
-
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
-)
-
 @Composable
-fun StarWarsTheme(content: @Composable () -> Unit) {
+fun StarWarsTheme(
+    isDarthVaderMode: Boolean = false,
+    content: @Composable () -> Unit
+) {
+    val colors = if (isDarthVaderMode) {
+        darkColorScheme(
+            primary = SithRed,
+            background = Color.Black,
+            surface = Color.Black,
+            onPrimary = Color.White,
+            onSurface = SithRed
+        )
+    } else {
+        darkColorScheme(
+            primary = JediYellow,
+            background = Color.Black,
+            surface = Color.Black,
+            onPrimary = Color.Black,
+            onSurface = JediYellow
+        )
+    }
+
     MaterialTheme(
-        colorScheme = StarWarsColors,
+        colorScheme = colors,
         typography = StarWarsTypography,
         content = content
     )

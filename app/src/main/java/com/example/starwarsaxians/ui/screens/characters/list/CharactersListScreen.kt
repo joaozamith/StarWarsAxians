@@ -1,12 +1,24 @@
 package com.example.starwarsaxians.ui.screens.characters.list
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,10 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.starwarsaxians.ui.components.StarWarsSearchBar
 import com.example.starwarsaxians.ui.components.StarWarsBackground
+import com.example.starwarsaxians.ui.components.StarWarsSearchBar
 import com.example.starwarsaxians.ui.theme.StarWarsFont
-import com.example.starwarsaxians.ui.theme.StarWarsYellow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,7 +56,7 @@ fun CharactersListScreen(
                                 text = "Characters",
                                 style = MaterialTheme.typography.headlineSmall.copy(
                                     fontFamily = StarWarsFont,
-                                    color = StarWarsYellow
+                                    color = MaterialTheme.colorScheme.primary
                                 )
                             )
                         },
@@ -54,7 +65,7 @@ fun CharactersListScreen(
                                 Icon(
                                     imageVector = Icons.Default.ArrowBackIosNew,
                                     contentDescription = "Back",
-                                    tint = StarWarsYellow
+                                    tint = MaterialTheme.colorScheme.primary
                                 )
                             }
                         },
@@ -96,6 +107,7 @@ fun CharactersListScreen(
                                     .fillMaxWidth()
                                     .clickable { onCharacterClick(character.id) }
                                     .padding(16.dp),
+                                color = MaterialTheme.colorScheme.primary,
                                 textAlign = TextAlign.Center
                             )
                         }

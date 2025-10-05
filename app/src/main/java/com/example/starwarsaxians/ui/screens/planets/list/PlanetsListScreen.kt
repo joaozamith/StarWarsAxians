@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,7 +35,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.starwarsaxians.ui.components.StarWarsBackground
 import com.example.starwarsaxians.ui.components.StarWarsSearchBar
 import com.example.starwarsaxians.ui.theme.StarWarsFont
-import com.example.starwarsaxians.ui.theme.StarWarsYellow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,7 +56,7 @@ fun PlanetsListScreen(
                                 text = "Planets",
                                 style = MaterialTheme.typography.headlineSmall.copy(
                                     fontFamily = StarWarsFont,
-                                    color = StarWarsYellow
+                                    color = MaterialTheme.colorScheme.primary
                                 )
                             )
                         },
@@ -67,7 +65,7 @@ fun PlanetsListScreen(
                                 Icon(
                                     imageVector = Icons.Default.ArrowBackIosNew,
                                     contentDescription = "Back",
-                                    tint = StarWarsYellow
+                                    tint = MaterialTheme.colorScheme.primary
                                 )
                             }
                         },
@@ -109,6 +107,7 @@ fun PlanetsListScreen(
                                     .fillMaxWidth()
                                     .clickable { onPlanetClick(planet.id) }
                                     .padding(16.dp),
+                                color = MaterialTheme.colorScheme.primary,
                                 textAlign = TextAlign.Center
                             )
                         }

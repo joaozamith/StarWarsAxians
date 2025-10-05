@@ -18,15 +18,23 @@ class CharacterDetailsViewModel @Inject constructor(
     private val _character = MutableStateFlow<com.example.starwarsaxians.domain.model.Character?>(null)
     val character: StateFlow<com.example.starwarsaxians.domain.model.Character?> = _character
 
-    suspend fun loadCharacter(id: String) {
+    fun loadCharacter(id: String) {
         viewModelScope.launch {
             runCatching {
-                repository.getCharacterById(id) // You can implement this using the cached list or API
+                repository.getCharacterById(id)
             }.onSuccess { character ->
                 _character.value = character
             }.onFailure { error ->
                 Log.e("CharacterDetailsViewModel", "Error: ${error.message}")
             }
+        }
+    }
+
+    fun toggleFavorite() {
+        val char = _character.value ?: return
+        viewModelScope.launch {
+            repository.toggleFavorite(char.id)
+            _character.value = char.copy(isFavorite = !char.isFavorite)
         }
     }
 }

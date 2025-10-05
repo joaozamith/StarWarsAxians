@@ -11,9 +11,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,14 +36,12 @@ import com.example.starwarsaxians.R
 import com.example.starwarsaxians.ui.components.InfoSection
 import com.example.starwarsaxians.ui.components.StarWarsBackground
 import com.example.starwarsaxians.ui.theme.StarWarsFont
-import com.example.starwarsaxians.ui.theme.StarWarsYellow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterDetailsScreen(
     characterId: String,
     onBack: () -> Unit,
-    onPlanetClick: (String) -> Unit,
     viewModel: CharacterDetailsViewModel = hiltViewModel()
 ) {
     val character by viewModel.character.collectAsState()
@@ -81,12 +79,12 @@ fun CharacterDetailsScreen(
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
                                 contentDescription = "Back",
-                                tint = StarWarsYellow
+                                tint = MaterialTheme.colorScheme.primary
                             )
                         }
 
                         IconButton(
-                            onClick = { /* TODO toggle favorite */ },
+                            onClick = { viewModel.toggleFavorite() },
                             modifier = Modifier
                                 .align(Alignment.BottomEnd)
                                 .padding(16.dp)
@@ -97,9 +95,9 @@ fun CharacterDetailsScreen(
                                 )
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Star,
+                                imageVector = if (char.isFavorite) Icons.Default.Star else Icons.Outlined.StarBorder,
                                 contentDescription = "Favorite",
-                                tint = StarWarsYellow
+                                tint = MaterialTheme.colorScheme.primary
                             )
                         }
                     }
@@ -110,7 +108,7 @@ fun CharacterDetailsScreen(
                         text = char.name.uppercase(),
                         style = MaterialTheme.typography.headlineSmall.copy(
                             fontFamily = StarWarsFont,
-                            color = StarWarsYellow
+                            color = MaterialTheme.colorScheme.primary
                         ),
                         modifier = Modifier.padding(vertical = 12.dp)
                     )
@@ -145,7 +143,7 @@ fun CharacterDetailsScreen(
                         text = "STORY",
                         style = MaterialTheme.typography.headlineSmall.copy(
                             fontFamily = StarWarsFont,
-                            color = StarWarsYellow
+                            color = MaterialTheme.colorScheme.primary
                         ),
                         modifier = Modifier.padding(top = 24.dp, bottom = 8.dp)
                     )
@@ -154,7 +152,7 @@ fun CharacterDetailsScreen(
                         text = "${char.name}, a Force-sensitive human male, was a legendary Jedi Master who fought in the Galactic Civil War during the reign of the Galactic Empire. Along with his companions, Princess Leia Organa and General Han Solo, ${char.name} served as a revolutionary on the side of the Alliance to Restore the Republic—an organization committed to the downfall of the Galactic Empire and the restoration of democracy. Following the war, ${char.name} became a living legend, and was remembered as one of the greatest Jedi in galactic history.",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontFamily = StarWarsFont,
-                            color = StarWarsYellow,
+                            color = MaterialTheme.colorScheme.primary,
                             lineHeight = 20.sp
                         ),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -165,7 +163,7 @@ fun CharacterDetailsScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator(color = StarWarsYellow)
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
         }
     }
 }

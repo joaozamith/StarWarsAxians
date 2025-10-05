@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -21,7 +22,7 @@ fun StarWarsSearchBar(
         value = query,
         onValueChange = { value -> onQueryChange(value) },
         modifier = modifier.fillMaxWidth(),
-        placeholder = { Text(placeholder) },
+        placeholder = { Text(text = placeholder, color = MaterialTheme.colorScheme.primary) },
         singleLine = true,
         leadingIcon = {
             Icon(

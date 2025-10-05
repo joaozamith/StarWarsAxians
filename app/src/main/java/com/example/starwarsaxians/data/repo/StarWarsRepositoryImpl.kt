@@ -7,7 +7,6 @@ import com.example.starwarsaxians.data.local.dao.CharacterDao
 import com.example.starwarsaxians.data.local.dao.FilmDao
 import com.example.starwarsaxians.data.local.dao.PlanetDao
 import com.example.starwarsaxians.data.local.dao.SpeciesDao
-import com.example.starwarsaxians.data.local.entities.FilmEntity
 import com.example.starwarsaxians.data.remote.SwapiApi
 import com.example.starwarsaxians.domain.model.Character
 import com.example.starwarsaxians.domain.model.Film
@@ -16,6 +15,7 @@ import com.example.starwarsaxians.domain.model.Species
 import com.example.starwarsaxians.domain.model.toDomain
 import com.example.starwarsaxians.domain.model.toEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class StarWarsRepositoryImpl @Inject constructor(
@@ -54,26 +54,6 @@ class StarWarsRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override suspend fun getFilmById(id: String): Film {
-        val cached = filmDao.getFilmById(id)
-        if (cached != null) {
-            return Film(
-                cached.id, cached.title, cached.episodeId, cached.releaseYear
-            )
-        }
-
-        val dto = api.getFilmByUrl("https://swapi.dev/api/films/$id/")
-        val film = dto.toDomain()
-
-        filmDao.insertFilms(
-            listOf(
-                FilmEntity(film.id, film.title, film.episodeId, film.releaseYear)
-            )
-        )
-
-        return film
-    }
-
     override suspend fun getCharacterById(id: String): Character {
         val cached = characterDao.getCharacterById(id)
         if (cached != null) {
@@ -88,14 +68,15 @@ class StarWarsRepositoryImpl @Inject constructor(
         return character
     }
 
-    override suspend fun getPlanet(id: String): Planet {
-        val dto = api.getPlanetByUrl("https://swapi.dev/api/planets/$id/")
-        return dto.toDomain()
+    override suspend fun toggleFavorite(characterId: String) {
+        val character = characterDao.getCharacterById(characterId)
+        if (character != null) {
+            characterDao.updateFavoriteStatus(characterId, !character.isFavorite)
+        }
     }
 
-
-    override suspend fun getSpecies(id: String): Species {
-        val dto = api.getSpeciesByUrl("https://swapi.dev/api/species/$id/")
-        return dto.toDomain()
+    override fun getFavoriteCharacters(): Flow<List<Character>> {
+        return characterDao.getFavoriteCharacters()
+            .map { list -> list.map { it.toDomain() } }
     }
 }

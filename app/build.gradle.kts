@@ -97,6 +97,9 @@ dependencies {
     implementation(libs.maps.compose)
     implementation(libs.play.services.maps)
 
+    //Datastore
+    implementation(libs.androidx.datastore.preferences)
+
     // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

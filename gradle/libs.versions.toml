@@ -40,6 +40,9 @@ kotlinxDatetime = "0.7.1"
 mapsCompose = "6.11.0"
 playServicesMaps = "19.2.0"
 
+#Datastore
+datastore = "1.1.1"
+
 [libraries]
 # AndroidX Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -94,6 +97,9 @@ kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime",
 # Maps
 maps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "mapsCompose" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+
+# Datastore
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 # Tests
 junit = { group = "junit", name = "junit", version.ref = "junit" }

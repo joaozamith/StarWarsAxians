@@ -1,15 +1,16 @@
 package com.example.starwarsaxians
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,11 +19,13 @@ import androidx.navigation.navArgument
 import com.example.starwarsaxians.ui.screens.characters.details.CharacterDetailsScreen
 import com.example.starwarsaxians.ui.screens.characters.list.CharactersListScreen
 import com.example.starwarsaxians.ui.screens.dashboard.DashboardScreen
+import com.example.starwarsaxians.ui.screens.favourites.FavoritesScreen
 import com.example.starwarsaxians.ui.screens.films.list.FilmsListScreen
 import com.example.starwarsaxians.ui.screens.planets.details.PlanetDetailsScreen
 import com.example.starwarsaxians.ui.screens.planets.list.PlanetsListScreen
 import com.example.starwarsaxians.ui.screens.species.list.SpeciesListScreen
 import com.example.starwarsaxians.ui.screens.splash.SplashScreen
+import com.example.starwarsaxians.ui.theme.AppThemeViewModel
 import com.example.starwarsaxians.ui.theme.StarWarsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,14 +34,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SideEffect { window.statusBarColor = Color.BLACK }
+            SideEffect { window.statusBarColor = android.graphics.Color.BLACK }
 
+            val appThemeViewModel: AppThemeViewModel = hiltViewModel()
+            val isDarthVaderMode by appThemeViewModel.isDarthVaderMode.collectAsState()
             var showSplash by remember { mutableStateOf(true) }
 
             if (showSplash) {
                 SplashScreen { showSplash = false }
             } else {
-                StarWarsTheme {
+                StarWarsTheme(isDarthVaderMode = isDarthVaderMode) {
                     StarWarsAppContent()
                 }
             }
@@ -61,6 +66,7 @@ fun StarWarsAppContent() {
                 onNavigateToFilms = { navController.navigate("films_list") },
                 onNavigateToSpecies = { navController.navigate("species_list") },
                 onNavigateToPlanets = { navController.navigate("planets_list") },
+                onFavourites = { navController.navigate("favourites_screen") }
             )
         }
 
@@ -80,9 +86,6 @@ fun StarWarsAppContent() {
             val characterId = backStackEntry.arguments?.getString("characterId")!!
             CharacterDetailsScreen(
                 characterId = characterId,
-                onPlanetClick = { planetId ->
-                    navController.navigate("planet_details/$planetId")
-                },
                 onBack = { navController.popBackStack() }
             )
         }
@@ -109,6 +112,15 @@ fun StarWarsAppContent() {
             SpeciesListScreen(
                 onSpeciesClick =  { specieId ->
                     //navController.navigate("film_details/$filmId")
+                },
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable("favourites_screen") {
+            FavoritesScreen(
+                onCharacterClick =  { characterId ->
+                    navController.navigate("character_details/$characterId")
                 },
                 onBack = { navController.popBackStack() }
             )

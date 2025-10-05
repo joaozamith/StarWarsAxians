@@ -15,7 +15,8 @@ data class Character(
     val filmIds: List<String>,
     val speciesIds: List<String>,
     val vehicleIds: List<String>,
-    val starshipIds: List<String>
+    val starshipIds: List<String>,
+    val isFavorite: Boolean
 )
 
 fun CharacterDto.toDomain() = Character(
@@ -29,7 +30,8 @@ fun CharacterDto.toDomain() = Character(
     filmIds = films.map { it.extractId() },
     speciesIds = species.map { it.extractId() },
     vehicleIds = vehicles.map { it.extractId() },
-    starshipIds = starships.map { it.extractId() }
+    starshipIds = starships.map { it.extractId() },
+    isFavorite = false
 )
 
 fun CharacterEntity.toDomain() = Character(
@@ -43,7 +45,8 @@ fun CharacterEntity.toDomain() = Character(
     filmIds = filmIds,
     speciesIds = speciesIds,
     vehicleIds = vehicleIds,
-    starshipIds = starshipIds
+    starshipIds = starshipIds,
+    isFavorite = isFavorite
 )
 
 fun Character.toEntity() = CharacterEntity(
@@ -57,5 +60,6 @@ fun Character.toEntity() = CharacterEntity(
     filmIds = filmIds,
     speciesIds = speciesIds,
     vehicleIds = vehicleIds,
-    starshipIds = starshipIds
+    starshipIds = starshipIds,
+    isFavorite = isFavorite
 )

@@ -15,6 +15,7 @@ data class CharacterEntity(
     val filmIds: List<String>,
     val speciesIds: List<String>,
     val vehicleIds: List<String>,
-    val starshipIds: List<String>
+    val starshipIds: List<String>,
+    val isFavorite: Boolean = false
 )
 

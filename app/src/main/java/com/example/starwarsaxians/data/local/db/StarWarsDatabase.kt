@@ -14,7 +14,7 @@ import com.example.starwarsaxians.data.local.entities.SpeciesEntity
 
 @Database(
     entities = [CharacterEntity::class, FilmEntity::class, PlanetEntity::class, SpeciesEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 
