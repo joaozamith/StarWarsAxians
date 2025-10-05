@@ -140,7 +140,9 @@ fun StarWarsAppContent() {
         composable(
             "planets_map",
         ) {
-            PlanetsMapScreen()
+            PlanetsMapScreen(
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }
