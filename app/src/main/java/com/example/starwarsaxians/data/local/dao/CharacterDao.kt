@@ -1,5 +1,6 @@
 package com.example.starwarsaxians.data.local.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -24,4 +25,19 @@ interface CharacterDao {
 
     @Query("UPDATE characters SET isFavorite = :isFavorite WHERE id = :id")
     suspend fun updateFavoriteStatus(id: String, isFavorite: Boolean)
+
+    @Query("SELECT * FROM characters ORDER BY name ASC")
+    fun getCharactersAsc(): PagingSource<Int, CharacterEntity>
+
+    @Query("SELECT * FROM characters ORDER BY name DESC")
+    fun getCharactersDesc(): PagingSource<Int, CharacterEntity>
+
+    @Query("SELECT * FROM characters")
+    fun getAllCharacters(): PagingSource<Int, CharacterEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(characters: List<CharacterEntity>)
+
+    @Query("DELETE FROM characters")
+    suspend fun clearAll()
 }

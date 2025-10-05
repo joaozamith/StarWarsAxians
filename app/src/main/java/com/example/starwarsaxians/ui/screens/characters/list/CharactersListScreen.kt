@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.starwarsaxians.ui.components.SortMenuButton
 import com.example.starwarsaxians.ui.components.StarWarsBackground
 import com.example.starwarsaxians.ui.components.StarWarsSearchBar
 import com.example.starwarsaxians.ui.theme.StarWarsFont
@@ -44,6 +46,7 @@ fun CharactersListScreen(
     viewModel: CharactersListViewModel = hiltViewModel()
 ) {
     val characters = viewModel.characters.collectAsLazyPagingItems()
+    val sortAscending by viewModel.sortAscending.collectAsState()
     var searchQuery by remember { mutableStateOf("") }
 
     StarWarsBackground {
@@ -71,7 +74,13 @@ fun CharactersListScreen(
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color.Transparent
-                        )
+                        ),
+                        actions = {
+                            SortMenuButton(
+                                sortAscending = sortAscending,
+                                onSortSelected = { viewModel.setSortOrder(it) }
+                            )
+                        }
                     )
                     StarWarsSearchBar(
                         query = searchQuery,

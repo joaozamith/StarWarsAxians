@@ -54,9 +54,11 @@ fun DashboardDrawer(
         ) {
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "Close Drawer"
+                contentDescription = "Close Drawer",
+                tint = MaterialTheme.colorScheme.primary
             )
         }
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -68,15 +70,39 @@ fun DashboardDrawer(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 NavigationDrawerItem(
-                    label = { Text(text = "Favourites", color = MaterialTheme.colorScheme.primary) },
+                    label = {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Favourites",
+                                color = MaterialTheme.colorScheme.primary,
+                                fontFamily = StarWarsFont
+                            )
+                        }
+                    },
                     selected = false,
                     onClick = { onFavourites() }
                 )
+
                 NavigationDrawerItem(
-                    label = { Text(text = "Map", color = MaterialTheme.colorScheme.primary,) },
+                    label = {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Map",
+                                color = MaterialTheme.colorScheme.primary,
+                                fontFamily = StarWarsFont
+                            )
+                        }
+                    },
                     selected = false,
                     onClick = { onPlanetsMap() }
                 )
+
                 Column(
                     modifier = Modifier.padding(top = 30.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -100,8 +126,7 @@ fun DashboardDrawer(
                         )
 
                         Switch(
-                            modifier = Modifier
-                                .padding(horizontal = 5.dp),
+                            modifier = Modifier.padding(horizontal = 5.dp),
                             checked = isVaderMode,
                             onCheckedChange = { toggleMode() },
                             colors = SwitchDefaults.colors(

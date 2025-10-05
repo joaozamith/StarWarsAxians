@@ -1,13 +1,16 @@
 package com.example.starwarsaxians.data.repo
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.example.starwarsaxians.data.helpers.extractId
 import com.example.starwarsaxians.data.local.dao.CharacterDao
 import com.example.starwarsaxians.data.local.dao.FilmDao
 import com.example.starwarsaxians.data.local.dao.PlanetDao
 import com.example.starwarsaxians.data.local.dao.SpeciesDao
+import com.example.starwarsaxians.data.mediator.CharactersRemoteMediator
 import com.example.starwarsaxians.data.remote.SwapiApi
 import com.example.starwarsaxians.domain.model.Character
 import com.example.starwarsaxians.domain.model.Film
@@ -19,6 +22,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+@OptIn(ExperimentalPagingApi::class)
 class StarWarsRepositoryImpl @Inject constructor(
     private val api: SwapiApi,
     private val characterDao: CharacterDao,
@@ -30,8 +34,25 @@ class StarWarsRepositoryImpl @Inject constructor(
     override fun getCharactersPaged(search: String?): Flow<PagingData<Character>> {
         return Pager(
             config = PagingConfig(pageSize = 10),
-            pagingSourceFactory = { CharactersPagingSource(api, search) }
-        ).flow
+            remoteMediator = CharactersRemoteMediator(api, characterDao),
+            pagingSourceFactory = { characterDao.getAllCharacters() }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toDomain() }
+        }
+    }
+
+    override fun getCharactersPagedSorted(search: String?, ascending: Boolean): Flow<PagingData<Character>> {
+        val pagingSourceFactory = {
+            if (ascending) characterDao.getCharactersAsc()
+            else characterDao.getCharactersDesc()
+        }
+
+        return Pager(
+            config = PagingConfig(pageSize = 10),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow.map { pagingData ->
+            pagingData.map { it.toDomain() }
+        }
     }
 
     override fun getFilmsPaged(search: String?): Flow<PagingData<Film>> {

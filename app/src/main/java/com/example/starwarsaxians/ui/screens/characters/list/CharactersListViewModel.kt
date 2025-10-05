@@ -11,6 +11,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
@@ -22,16 +24,21 @@ class CharactersListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val searchQuery = MutableStateFlow<String?>(null)
+    private val _sortAscending = MutableStateFlow<Boolean?>(null) // null = unsorted
+    val sortAscending: StateFlow<Boolean?> = _sortAscending
 
     val characters: Flow<PagingData<Character>> =
-        searchQuery
-            .debounce(300)
-            .flatMapLatest { query ->
-                repository.getCharactersPaged(query)
-            }
+        combine(searchQuery.debounce(300), _sortAscending) { query, sortAsc ->
+            if (sortAsc == null) repository.getCharactersPaged(query)
+            else repository.getCharactersPagedSorted(query, sortAsc)
+        }.flatMapLatest { it }
             .cachedIn(viewModelScope)
 
     fun onSearchQueryChanged(query: String) {
         searchQuery.value = query.ifBlank { null }
+    }
+
+    fun setSortOrder(ascending: Boolean?) {
+        _sortAscending.value = ascending
     }
 }

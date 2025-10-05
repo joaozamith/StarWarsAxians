@@ -17,4 +17,5 @@ interface StarWarsRepository {
 
     suspend fun getAllPlanets(): List<Planet>
     suspend fun getCharactersByPlanet(planetId: String): List<Character>
+    fun getCharactersPagedSorted(search: String?, ascending: Boolean): Flow<PagingData<Character>>
 }
