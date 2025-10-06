@@ -41,6 +41,7 @@ fun DashboardDrawer(
     scope: CoroutineScope,
     drawerState: DrawerState,
     isVaderMode: Boolean,
+    onCompare: () -> Unit,
     onFavourites: () -> Unit,
     onPlanetsMap: () -> Unit,
     toggleMode: () -> Unit
@@ -69,6 +70,23 @@ fun DashboardDrawer(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                NavigationDrawerItem(
+                    label = {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Compare",
+                                color = MaterialTheme.colorScheme.primary,
+                                fontFamily = StarWarsFont
+                            )
+                        }
+                    },
+                    selected = false,
+                    onClick = { onCompare() }
+                )
+
                 NavigationDrawerItem(
                     label = {
                         Box(
@@ -138,7 +156,7 @@ fun DashboardDrawer(
                         )
 
                         Image(
-                            painter = painterResource(id = R.drawable.darthvader),
+                            painter = painterResource(id = R.drawable.darthvader_icon),
                             contentDescription = "Darth Vader",
                             modifier = Modifier
                                 .size(50.dp)

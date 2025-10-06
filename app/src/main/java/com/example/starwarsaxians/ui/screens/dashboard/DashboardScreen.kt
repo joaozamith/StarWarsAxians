@@ -32,8 +32,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.starwarsaxians.R
+import com.example.starwarsaxians.ui.components.DashboardCard
 import com.example.starwarsaxians.ui.components.StarWarsBackground
-import com.example.starwarsaxians.ui.components.dashboard.DashboardCard
 import com.example.starwarsaxians.ui.components.dashboard.DashboardDrawer
 import com.example.starwarsaxians.ui.theme.AppThemeViewModel
 import com.example.starwarsaxians.ui.theme.StarWarsTheme
@@ -46,6 +46,7 @@ fun DashboardScreen(
     onNavigateToFilms: () -> Unit,
     onNavigateToSpecies: () -> Unit,
     onNavigateToPlanets: () -> Unit,
+    onCompare: () -> Unit,
     onFavourites: () -> Unit,
     onPlanetsMap: () -> Unit,
     viewModel: AppThemeViewModel = hiltViewModel()
@@ -63,6 +64,7 @@ fun DashboardScreen(
                         scope = scope,
                         drawerState = drawerState,
                         isVaderMode = isVaderMode,
+                        onCompare = { onCompare() },
                         onFavourites = { onFavourites() },
                         onPlanetsMap = { onPlanetsMap() },
                         toggleMode = { viewModel.toggleMode() }
