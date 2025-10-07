@@ -105,7 +105,7 @@ fun CharacterDetailsScreen(
 
                 item {
                     Text(
-                        text = char.name.uppercase(),
+                        text = char.name,
                         style = MaterialTheme.typography.headlineSmall.copy(
                             fontFamily = StarWarsFont,
                             color = MaterialTheme.colorScheme.primary
@@ -116,31 +116,31 @@ fun CharacterDetailsScreen(
 
                 item {
                     InfoSection(
-                        title = "BIOGRAPHICAL INFORMATION",
+                        title = "biographical information",
                         items = listOf(
-                            "HOMEWORLD" to char.homeworldId.toString(),
-                            "BORN" to (char.birthYear ?: "-"),
-                            "DIED" to ("34BBY")
+                            "homeworld" to char.homeworldId.toString(),
+                            "born" to (char.birthYear ?: "-"),
+                            "died" to ("34BBY")
                         )
                     )
                 }
 
                 item {
                     InfoSection(
-                        title = "PHYSICAL DESCRIPTION",
+                        title = "physical description",
                         items = listOf(
-                            "SPECIES" to char.speciesIds.joinToString().ifEmpty { "Human" },
-                            "GENDER" to (char.gender ?: "-"),
-                            "PRONOUNS" to (char.gender ?: "-"),
-                            "HEIGHT" to (char.height ?: "-"),
-                            "MASS" to (char.mass ?: "-"),
+                            "species" to char.speciesIds.joinToString().ifEmpty { "Human" },
+                            "gender" to (char.gender ?: "-"),
+                            "pronouns" to (char.gender ?: "-"),
+                            "height" to (char.height ?: "-"),
+                            "mass" to (char.mass ?: "-"),
                         )
                     )
                 }
 
                 item {
                     Text(
-                        text = "STORY",
+                        text = "story",
                         style = MaterialTheme.typography.headlineSmall.copy(
                             fontFamily = StarWarsFont,
                             color = MaterialTheme.colorScheme.primary

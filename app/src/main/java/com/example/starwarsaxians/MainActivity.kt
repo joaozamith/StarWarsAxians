@@ -66,7 +66,6 @@ fun StarWarsAppContent() {
         startDestination = "dashboard"
     ) {
 
-        // --- DASHBOARD ---
         composable("dashboard") {
             DashboardScreen(
                 onNavigateToCharacters = { navController.navigate("characters_list") },

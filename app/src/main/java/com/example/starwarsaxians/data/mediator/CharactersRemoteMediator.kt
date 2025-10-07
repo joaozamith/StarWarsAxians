@@ -12,13 +12,11 @@ import com.example.starwarsaxians.domain.model.toEntity
 
 @OptIn(ExperimentalPagingApi::class)
 class CharactersRemoteMediator(
-    private val api: SwapiApi,
-    private val characterDao: CharacterDao
+    private val api: SwapiApi, private val characterDao: CharacterDao
 ) : RemoteMediator<Int, CharacterEntity>() {
 
     override suspend fun load(
-        loadType: LoadType,
-        state: PagingState<Int, CharacterEntity>
+        loadType: LoadType, state: PagingState<Int, CharacterEntity>
     ): MediatorResult {
         return try {
             val page = when (loadType) {
@@ -31,19 +29,12 @@ class CharactersRemoteMediator(
                 }
             }
 
-            // 🔸 Fetch from API
             val response = api.getPeople(page)
 
-            // 🔸 Convert to entities
-            val entities = response.results.map { dto ->
-                dto.toDomain().toEntity()
-            }
+            val entities = response.results.map { dto -> dto.toDomain().toEntity() }
 
-            if (loadType == LoadType.REFRESH) {
-                characterDao.clearAll()
-            }
+            if (loadType == LoadType.REFRESH) { characterDao.clearAll() }
 
-            // 🔸 Save into Room
             characterDao.insertAll(entities)
 
             MediatorResult.Success(endOfPaginationReached = response.next == null)

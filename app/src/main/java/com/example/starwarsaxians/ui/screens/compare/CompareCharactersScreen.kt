@@ -124,7 +124,7 @@ fun CompareCharactersScreen(
                             .fillMaxWidth(0.8f)
                     ) {
                         Text(
-                            "COMPARE",
+                            "compare",
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontFamily = StarWarsFont,
                                 color = Color.Black

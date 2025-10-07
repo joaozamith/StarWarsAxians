@@ -113,7 +113,6 @@ fun FilmsListScreen(
                         }
                     }
 
-                    // Estado inicial (refresh)
                     when (val state = films.loadState.refresh) {
                         is LoadState.Loading -> {
                             item {
@@ -141,7 +140,6 @@ fun FilmsListScreen(
                         else -> Unit
                     }
 
-                    // Paginação (append)
                     when (val state = films.loadState.append) {
                         is LoadState.Loading -> {
                             item {

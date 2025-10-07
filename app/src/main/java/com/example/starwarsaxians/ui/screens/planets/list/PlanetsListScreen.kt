@@ -113,7 +113,6 @@ fun PlanetsListScreen(
                         }
                     }
 
-                    // Estado inicial (refresh)
                     when (val state = planets.loadState.refresh) {
                         is LoadState.Loading -> {
                             item {
@@ -137,11 +136,9 @@ fun PlanetsListScreen(
                                 )
                             }
                         }
-
                         else -> Unit
                     }
 
-                    // Paginação (append)
                     when (val state = planets.loadState.append) {
                         is LoadState.Loading -> {
                             item {
@@ -165,7 +162,6 @@ fun PlanetsListScreen(
                                 )
                             }
                         }
-
                         else -> Unit
                     }
                 }

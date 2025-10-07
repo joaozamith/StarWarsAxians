@@ -138,13 +138,13 @@ fun CompareDetailsScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Text(
-                        text = char1!!.name.uppercase(),
+                        text = char1!!.name,
                         color = MaterialTheme.colorScheme.primary,
                         fontFamily = StarWarsFont,
                         textAlign = TextAlign.Center
                     )
                     Text(
-                        text = char2!!.name.uppercase(),
+                        text = char2!!.name,
                         color = MaterialTheme.colorScheme.primary,
                         fontFamily = StarWarsFont,
                         textAlign = TextAlign.Center
@@ -154,21 +154,21 @@ fun CompareDetailsScreen(
 
             item {
                 ComparisonSection(
-                    title = "BIOGRAPHICAL INFORMATION",
+                    title = "biographical information",
                     entries = listOf(
-                        Triple("HOMEWORLD", char1!!.homeworldId ?: "-", char2!!.homeworldId ?: "-"),
-                        Triple("BORN", char1!!.birthYear ?: "-", char2!!.birthYear ?: "-")
+                        Triple("homeworld", char1!!.homeworldId ?: "-", char2!!.homeworldId ?: "-"),
+                        Triple("born", char1!!.birthYear ?: "-", char2!!.birthYear ?: "-")
                     )
                 )
             }
 
             item {
                 ComparisonSection(
-                    title = "PHYSICAL DESCRIPTION",
+                    title = "physical description",
                     entries = listOf(
-                        Triple("GENDER", char1!!.gender ?: "-", char2!!.gender ?: "-"),
-                        Triple("HEIGHT", "${char1!!.height ?: "-"} m", "${char2!!.height ?: "-"} m"),
-                        Triple("MASS", "${char1!!.mass ?: "-"} kg", "${char2!!.mass ?: "-"} kg")
+                        Triple("gender", char1!!.gender ?: "-", char2!!.gender ?: "-"),
+                        Triple("height", "${char1!!.height ?: "-"} m", "${char2!!.height ?: "-"} m"),
+                        Triple("mass", "${char1!!.mass ?: "-"} kg", "${char2!!.mass ?: "-"} kg")
                     )
                 )
             }
@@ -204,7 +204,7 @@ fun ComparisonSection(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    label.uppercase(),
+                    label,
                     color = MaterialTheme.colorScheme.primary,
                     fontFamily = StarWarsFont,
                     textAlign = TextAlign.Center

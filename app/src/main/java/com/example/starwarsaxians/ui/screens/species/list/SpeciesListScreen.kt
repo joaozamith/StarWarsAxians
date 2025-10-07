@@ -79,8 +79,7 @@ fun SpeciesListScreen(
                             searchQuery = newQuery
                             viewModel.onSearchQueryChanged(newQuery)
                         },
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                         placeholder = "Search species..."
                     )
                 }
@@ -108,12 +107,10 @@ fun SpeciesListScreen(
                                     .clickable { onSpeciesClick(specie.id) }
                                     .padding(16.dp),
                                 color = MaterialTheme.colorScheme.primary,
-                                textAlign = TextAlign.Center
-                            )
+                                textAlign = TextAlign.Center)
                         }
                     }
 
-                    // Estado inicial (refresh)
                     when (val state = species.loadState.refresh) {
                         is LoadState.Loading -> {
                             item {
@@ -141,7 +138,6 @@ fun SpeciesListScreen(
                         else -> Unit
                     }
 
-                    // Paginação (append)
                     when (val state = species.loadState.append) {
                         is LoadState.Loading -> {
                             item {

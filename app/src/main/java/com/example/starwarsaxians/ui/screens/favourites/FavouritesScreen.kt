@@ -70,24 +70,35 @@ fun FavoritesScreen(
                     .padding(padding),
                 contentAlignment = Alignment.Center
             ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(padding)
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    items(favorites) { character ->
-                        Text(
-                            text = character.name,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { onCharacterClick(character.id) }
-                                .padding(16.dp),
-                            color = MaterialTheme.colorScheme.primary,
-                            fontFamily = StarWarsFont,
-                            textAlign = TextAlign.Center
-                        )
+                if (favorites.isEmpty()) {
+                    Text(
+                        text = "There are no favourites selected...",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontFamily = StarWarsFont,
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(32.dp)
+                    )
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(padding)
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        items(favorites) { character ->
+                            Text(
+                                text = character.name,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { onCharacterClick(character.id) }
+                                    .padding(16.dp),
+                                color = MaterialTheme.colorScheme.primary,
+                                fontFamily = StarWarsFont,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }

@@ -24,7 +24,7 @@ class CharactersListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val searchQuery = MutableStateFlow<String?>(null)
-    private val _sortAscending = MutableStateFlow<Boolean?>(null) // null = unsorted
+    private val _sortAscending = MutableStateFlow<Boolean?>(null)
     val sortAscending: StateFlow<Boolean?> = _sortAscending
 
     val characters: Flow<PagingData<Character>> =

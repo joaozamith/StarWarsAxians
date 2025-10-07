@@ -106,7 +106,7 @@ class StarWarsRepositoryImpl @Inject constructor(
         val cached = planetDao.getAllPlanets()
         if (cached.isNotEmpty()) return cached.map { it.toDomain() }
 
-        val response = api.getPlanets(1) // SWAPI paginates, we’ll fetch the first few pages
+        val response = api.getPlanets(1)
         val allPlanets = response.results.map { it.toDomain() }
 
         planetDao.insertPlanets(allPlanets.map { it.toEntity() })

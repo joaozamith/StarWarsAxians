@@ -50,7 +50,7 @@ fun DashboardCard(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = title.uppercase(),
+            text = title,
             style = MaterialTheme.typography.headlineSmall.copy(
                 fontFamily = StarWarsFont,
                 color = MaterialTheme.colorScheme.primary
@@ -94,7 +94,7 @@ fun CharacterSelectedCard(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = character.name.uppercase(),
+            text = character.name,
             style = MaterialTheme.typography.headlineSmall.copy(
                 fontFamily = StarWarsFont,
                 color = MaterialTheme.colorScheme.primary

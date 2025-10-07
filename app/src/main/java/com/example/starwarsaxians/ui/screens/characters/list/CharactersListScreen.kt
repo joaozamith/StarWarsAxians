@@ -122,7 +122,6 @@ fun CharactersListScreen(
                         }
                     }
 
-                    // Estado inicial (refresh)
                     when (val state = characters.loadState.refresh) {
                         is LoadState.Loading -> {
                             item {
@@ -150,7 +149,6 @@ fun CharactersListScreen(
                         else -> Unit
                     }
 
-                    // Paginação (append)
                     when (val state = characters.loadState.append) {
                         is LoadState.Loading -> {
                             item {
