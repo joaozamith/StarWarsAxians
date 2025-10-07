@@ -34,11 +34,8 @@ class StarWarsRepositoryImpl @Inject constructor(
     override fun getCharactersPaged(search: String?): Flow<PagingData<Character>> {
         return Pager(
             config = PagingConfig(pageSize = 10),
-            remoteMediator = CharactersRemoteMediator(api, characterDao),
-            pagingSourceFactory = { characterDao.getAllCharacters() }
-        ).flow.map { pagingData ->
-            pagingData.map { it.toDomain() }
-        }
+            pagingSourceFactory = { CharactersPagingSource(api, search) }
+        ).flow
     }
 
     override fun getCharactersPagedSorted(search: String?, ascending: Boolean): Flow<PagingData<Character>> {

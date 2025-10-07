@@ -27,12 +27,14 @@ class CharactersListViewModel @Inject constructor(
     private val _sortAscending = MutableStateFlow<Boolean?>(null)
     val sortAscending: StateFlow<Boolean?> = _sortAscending
 
-    val characters: Flow<PagingData<Character>> =
-        combine(searchQuery.debounce(300), _sortAscending) { query, sortAsc ->
-            if (sortAsc == null) repository.getCharactersPaged(query)
-            else repository.getCharactersPagedSorted(query, sortAsc)
-        }.flatMapLatest { it }
-            .cachedIn(viewModelScope)
+    val characters = combine(searchQuery.debounce(300), _sortAscending) { query, sortAsc ->
+        Pair(query, sortAsc)
+    }.flatMapLatest { (query, sortAsc) ->
+        if (sortAsc == null)
+            repository.getCharactersPaged(query)
+        else
+            repository.getCharactersPagedSorted(query, sortAsc)
+    }.cachedIn(viewModelScope)
 
     fun onSearchQueryChanged(query: String) {
         searchQuery.value = query.ifBlank { null }
