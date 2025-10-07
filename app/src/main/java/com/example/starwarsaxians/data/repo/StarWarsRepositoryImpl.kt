@@ -19,6 +19,7 @@ import com.example.starwarsaxians.domain.model.Species
 import com.example.starwarsaxians.domain.model.toDomain
 import com.example.starwarsaxians.domain.model.toEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -34,22 +35,30 @@ class StarWarsRepositoryImpl @Inject constructor(
     override fun getCharactersPaged(search: String?): Flow<PagingData<Character>> {
         return Pager(
             config = PagingConfig(pageSize = 10),
-            pagingSourceFactory = { CharactersPagingSource(api, search) }
+            pagingSourceFactory = { CharactersPagingSource(api, search, null) }
         ).flow
     }
 
-    override fun getCharactersPagedSorted(search: String?, ascending: Boolean): Flow<PagingData<Character>> {
-        val pagingSourceFactory = {
-            if (ascending) characterDao.getCharactersAsc()
-            else characterDao.getCharactersDesc()
+    override fun getCharactersPagedSorted(
+        search: String?,
+        ascending: Boolean
+    ): Flow<PagingData<Character>> = flow {
+        val all = mutableListOf<Character>()
+        var page = 1
+        while (true) {
+            val resp = api.getPeople(page = page, search = search)
+            all += resp.results.map { it.toDomain() }
+            if (resp.next == null) break
+            page++
         }
 
-        return Pager(
-            config = PagingConfig(pageSize = 10),
-            pagingSourceFactory = pagingSourceFactory
-        ).flow.map { pagingData ->
-            pagingData.map { it.toDomain() }
+        val sorted = if (ascending) {
+            all.sortedBy { it.name.lowercase() }
+        } else {
+            all.sortedByDescending { it.name.lowercase() }
         }
+
+        emit(PagingData.from(sorted))
     }
 
     override fun getFilmsPaged(search: String?): Flow<PagingData<Film>> {

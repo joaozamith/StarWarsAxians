@@ -8,13 +8,22 @@ import com.example.starwarsaxians.domain.model.toDomain
 
 class CharactersPagingSource(
     private val api: SwapiApi,
-    private val searchQuery: String?
+    private val searchQuery: String?,
+    private val ascending: Boolean? = null
 ) : PagingSource<Int, Character>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
         val page = params.key ?: 1
         return try {
             val response = api.getPeople(page, searchQuery)
-            val characters = response.results.map { it.toDomain() }
+            var characters = response.results.map { it.toDomain() }
+            if (ascending != null) {
+                characters = if (ascending) {
+                    characters.sortedBy { it.name.lowercase() }
+                } else {
+                    characters.sortedByDescending { it.name.lowercase() }
+                }
+            }
+
             LoadResult.Page(
                 data = characters,
                 prevKey = if (response.previous == null) null else page - 1,

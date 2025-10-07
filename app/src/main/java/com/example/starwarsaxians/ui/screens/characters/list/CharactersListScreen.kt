@@ -111,7 +111,7 @@ fun CharactersListScreen(
                         val character = characters[index]
                         if (character != null) {
                             Text(
-                                text = character.name,
+                                text = character.name.lowercase(),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable { onCharacterClick(character.id) }
